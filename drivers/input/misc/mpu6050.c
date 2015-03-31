@@ -3122,16 +3122,6 @@ static int mpu6050_probe(struct i2c_client *client,
 	sensor->accel_cdev.sensors_poll_delay = mpu6050_accel_cdev_poll_delay;
 	sensor->accel_cdev.sensors_enable_wakeup =
 					mpu6050_accel_cdev_enable_wakeup;
-	sensor->accel_cdev.fifo_reserved_event_count = 0;
-	sensor->accel_cdev.sensors_set_latency = mpu6050_accel_cdev_set_latency;
-	sensor->accel_cdev.sensors_flush = mpu6050_accel_cdev_flush;
-	sensor->accel_cdev.sensors_calibrate = mpu6050_accel_calibration;
-	sensor->accel_cdev.sensors_write_cal_params =
-		mpu6050_write_accel_cal_params;
-	if ((sensor->pdata->use_int) &&
-			gpio_is_valid(sensor->pdata->gpio_int))
-		sensor->accel_cdev.max_delay = MPU6050_ACCEL_INT_MAX_DELAY;
-
 	ret = sensors_classdev_register(&sensor->accel_dev->dev,
 			&sensor->accel_cdev);
 	if (ret) {
@@ -3145,13 +3135,6 @@ static int mpu6050_probe(struct i2c_client *client,
 	sensor->gyro_cdev.delay_msec = sensor->gyro_poll_ms;
 	sensor->gyro_cdev.sensors_enable = mpu6050_gyro_cdev_enable;
 	sensor->gyro_cdev.sensors_poll_delay = mpu6050_gyro_cdev_poll_delay;
-	sensor->gyro_cdev.fifo_reserved_event_count = 0;
-	sensor->gyro_cdev.sensors_set_latency = mpu6050_gyro_cdev_set_latency;
-	sensor->gyro_cdev.sensors_flush = mpu6050_gyro_cdev_flush;
-	if ((sensor->pdata->use_int) &&
-			gpio_is_valid(sensor->pdata->gpio_int))
-		sensor->gyro_cdev.max_delay = MPU6050_GYRO_INT_MAX_DELAY;
-
 	ret = sensors_classdev_register(&sensor->gyro_dev->dev,
 			&sensor->gyro_cdev);
 	if (ret) {
